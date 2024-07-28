@@ -1,0 +1,22 @@
+{
+  "name": "hardhat-project",
+  "scripts": {
+    "compile": "hardhat compile",
+    "hardhat": "hardhat node",
+    "test": "hardhat test",
+    "size": "hardhat size-contracts",
+    "clean": "hardhat clean",
+    "run:localhost": "hardhat run --network localhost",
+    "deploy:local": "hardhat ignition deploy --network localhost",
+    "deploy:sepolia": "hardhat ignition deploy --network sepolia",
+    "deploy:metis": "hardhat ignition deploy --network metis-testnet",
+    "deploy:metis-calculator": "hardhat run scripts/deploy.ts --network metis-testnet"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.6",
+    "hardhat-abi-exporter": "^2.10.1",
+    "hardhat-gas-reporter": "^2.2.0"
+  }
+}

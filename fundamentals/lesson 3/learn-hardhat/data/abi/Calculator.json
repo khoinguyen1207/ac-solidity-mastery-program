@@ -1,0 +1,87 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "int256",
+                "name": "a",
+                "type": "int256"
+            },
+            {
+                "internalType": "int256",
+                "name": "b",
+                "type": "int256"
+            }
+        ],
+        "name": "add",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "int256",
+                "name": "a",
+                "type": "int256"
+            },
+            {
+                "internalType": "int256",
+                "name": "b",
+                "type": "int256"
+            }
+        ],
+        "name": "divide",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getResult",
+        "outputs": [
+            {
+                "internalType": "int256",
+                "name": "",
+                "type": "int256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "int256",
+                "name": "a",
+                "type": "int256"
+            },
+            {
+                "internalType": "int256",
+                "name": "b",
+                "type": "int256"
+            }
+        ],
+        "name": "multiply",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "int256",
+                "name": "a",
+                "type": "int256"
+            },
+            {
+                "internalType": "int256",
+                "name": "b",
+                "type": "int256"
+            }
+        ],
+        "name": "subtract",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]
