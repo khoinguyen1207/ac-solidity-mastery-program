@@ -55,7 +55,7 @@ contract Calculator {
     }
 
     function divide(int256 a, int256 b) public check_b(b) {
-        result = (a * 10**2) / b;
+        result = (a * 10**18) / b;
     }
 }
 ```
