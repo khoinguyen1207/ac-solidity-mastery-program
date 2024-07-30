@@ -9,15 +9,15 @@
 
 # Exercies 2
 
-## 📄 Task 1: Try to faucet ETH on Sepolia
+## 💬 Task 1: Try to faucet ETH on Sepolia
 
 ![Alt text](./FaucetSepolia.png "a title")
 
-## 📄 Task 2: Try to faucet Metis on Metis L2
+## 💬 Task 2: Try to faucet Metis on Metis L2
 
 ![Alt text](./FaucetMetis.png "a title")
 
-## 📄 Task 3: Deploy your first smart contract to Metis L2
+## 💬 Task 3: Deploy your first smart contract to Metis L2
 
 - 📌 Link deployed: [Block hash](https://sepolia-explorer.metisdevops.link/address/0x93Bf9Ff7D63A5CF5421A105703f11566Dd866651)
 

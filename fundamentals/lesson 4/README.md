@@ -9,9 +9,9 @@
 
 # Exercies 4
 
-## 📄 Task 1: Add a new condition in the constructor of the Lock smart contract. The locking value must be greater than or equal to 0.1 Metis
+## 💬 Task 1: Add a new condition in the constructor of the Lock smart contract. The locking value must be greater than or equal to 0.1 Metis
 
-### 💻 Solution
+### 💡 Solution
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
@@ -112,6 +112,6 @@ networks: {
 },
 ```
 
-## 📄 Task 2: Deploy to Metis L2
+## 💬 Task 2: Deploy to Metis L2
 
 - 📌 Link deployed: [Block hash](https://sepolia-explorer.metisdevops.link/tx/0x6a92a2d6ba94057ee98d711914c6039b7c7e14a92249483387532d5cb4c35a61)

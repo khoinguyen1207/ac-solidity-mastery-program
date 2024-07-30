@@ -9,21 +9,21 @@
 
 # Exercies 3
 
-## 📄 Task 1: Make a contract called Calculator
+## 💬 Task 1: Make a contract called Calculator
 
-## 📄 Task 2: Create Result variable to store result
+## 💬 Task 2: Create Result variable to store result
 
-## 📄 Task 3: Create functions to add, subtract, and multiply to result
+## 💬 Task 3: Create functions to add, subtract, and multiply to result
 
-## 📄 Task 4: Create a function to get result
+## 💬 Task 4: Create a function to get result
 
-## 📄 Task 5: Deploy to Metis L2
+## 💬 Task 5: Deploy to Metis L2
 
 ![Alt text](./DeployMetisCalculator.png "Deloy")
 
 - 📌 Link deployed: [Block hash](https://sepolia-explorer.metisdevops.link/tx/0x1085368851a1c5c2724e6b11d0a35c49066da823ab1bb8200a58a231ebf37505)
 
-### 💻 Solution
+### 💡 Solution
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -76,30 +76,30 @@ networks: {
 - Config deploy file (scripts/deploy.ts)
 
 ```js
-import "@nomicfoundation/hardhat-ethers";
-import { ethers } from "hardhat";
+import "@nomicfoundation/hardhat-ethers"
+import { ethers } from "hardhat"
 
 async function main() {
-  const [owner] = await ethers.getSigners();
-  console.log("Deploying contracts with the account: ", owner.address);
-  console.log("Account balance: ", (await owner.provider.getBalance(owner)).toString());
+  const [owner] = await ethers.getSigners()
+  console.log("Deploying contracts with the account: ", owner.address)
+  console.log("Account balance: ", (await owner.provider.getBalance(owner)).toString())
 
   const deploy = async () => {
-    const Calculator = await ethers.getContractFactory("Calculator");
-    const calculator = await Calculator.deploy();
+    const Calculator = await ethers.getContractFactory("Calculator")
+    const calculator = await Calculator.deploy()
 
     console.table({
-      calculator: await calculator.getAddress()
-    });
-  };
+      calculator: await calculator.getAddress(),
+    })
+  }
 
-  await deploy();
+  await deploy()
 }
 
 main()
   .then(() => process.exit(0))
   .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+    console.error(error)
+    process.exit(1)
+  })
 ```

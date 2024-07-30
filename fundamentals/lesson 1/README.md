@@ -9,7 +9,7 @@
 
 # Exercise 1
 
-## 📄 Task 1: Go through the Ethereum ecosystem and provide a brief overview of the essential protocol (one) in each category
+## 💬 Task 1: Go through the Ethereum ecosystem and provide a brief overview of the essential protocol (one) in each category
 
 - ### 1. Exchange:
 
@@ -31,7 +31,7 @@
 
   Các dApp trong loại này tập trung vào các đồng tiền ổn định, tức là các tài sản kỹ thuật số được thiết kế để giữ giá trị ổn định, thường là bằng cách liên kết với một loại tài sản đáng tin cậy như USD hoặc vàng. Ví dụ, các stablecoin như **USDT** (Tether), **USDC** (USD Coin).
 
-## 📄 Task 2: Provide a brief overview of at least 5 Layer 2 (L2) chain
+## 💬 Task 2: Provide a brief overview of at least 5 Layer 2 (L2) chain
 
 ### Polygon
 
@@ -60,7 +60,7 @@
 
 - **Công nghệ**: Sử dụng zk-Rollups để gộp hàng trăm giao dịch ngoài chuỗi và nộp một chứng minh duy nhất lên Ethereum.
 
-## 📄 Task 3: Search for dApps in Metis and fill in the protocols as per Task 1
+## 💬 Task 3: Search for dApps in Metis and fill in the protocols as per Task 1
 
 - **Exchange**: Hummus, Netswap, SushiSwap
 - **Infrastructure**: Chainlink, Layer Zero, Snapshot
