@@ -34,6 +34,7 @@ contract AdvancedCalculator is BasicCalculator {
     }
 
     function performOperations(uint256 a, uint256 b, uint8 operation) public {}
+}
 ```
 
 ## 💬 Task 1: Implement operation function, where the operation can be (1,2,3,4) corresponding to (+,-,\*,/)
