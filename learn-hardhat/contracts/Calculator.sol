@@ -2,31 +2,46 @@
 
 pragma solidity ^0.8.24;
 
-contract Calculator {
-    int256 private result;
 
-    modifier check_b(int256 b) {
+library Math {
+    function multiply(uint256 a, uint256 b) internal pure returns (uint256) {
+        return a * b;
+    }
+
+    function divide(uint256 a, uint256 b) internal pure returns (uint256) {
+        return  a / b;
+    }
+
+}
+
+contract Calculator {
+    uint256 private result;
+
+    using Math for uint256;
+
+    modifier check_b(uint256 b) {
         require(b != 0, "You can't divide by zero");
         _;
     }
 
-    function getResult() public view returns (int256) {
+    function getResult() public view returns (uint256) {
         return result;
     }
 
-    function add(int256 a, int256 b) public {
+    function add(uint256 a, uint256 b) public {
         result = a + b;
     }
 
-    function subtract(int256 a, int256 b) public {
+    function subtract(uint256 a, uint256 b) public {
         result = a - b;
     }
 
-    function multiply(int256 a, int256 b) public {
-        result = a * b;
+    function multiply(uint256 a, uint256 b)  public {
+        result = a.multiply(b);
     }
 
-    function divide(int256 a, int256 b) public check_b(b) {
-        result = (a * 10**18) / b;
+    function divide(uint256 a, uint256 b) public check_b(b) {
+        result = a.divide(b);
     }
 }
+

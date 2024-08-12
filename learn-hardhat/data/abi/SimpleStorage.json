@@ -1,43 +1,45 @@
 [
     {
+        "anonymous": false,
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "a",
-                "type": "uint256"
+                "indexed": true,
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
             },
             {
+                "indexed": false,
                 "internalType": "uint256",
-                "name": "b",
+                "name": "data",
                 "type": "uint256"
             }
         ],
-        "name": "add",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "name": "DataRetrieved",
+        "type": "event"
     },
     {
+        "anonymous": false,
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "a",
-                "type": "uint256"
+                "indexed": true,
+                "internalType": "address",
+                "name": "sender",
+                "type": "address"
             },
             {
+                "indexed": false,
                 "internalType": "uint256",
-                "name": "b",
+                "name": "data",
                 "type": "uint256"
             }
         ],
-        "name": "divide",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "name": "DataStored",
+        "type": "event"
     },
     {
         "inputs": [],
-        "name": "getResult",
+        "name": "get",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -52,36 +54,26 @@
         "inputs": [
             {
                 "internalType": "uint256",
-                "name": "a",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "b",
+                "name": "x",
                 "type": "uint256"
             }
         ],
-        "name": "multiply",
+        "name": "set",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
     },
     {
-        "inputs": [
+        "inputs": [],
+        "name": "storedData",
+        "outputs": [
             {
                 "internalType": "uint256",
-                "name": "a",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "b",
+                "name": "",
                 "type": "uint256"
             }
         ],
-        "name": "subtract",
-        "outputs": [],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
     }
 ]
