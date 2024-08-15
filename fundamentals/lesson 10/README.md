@@ -32,6 +32,11 @@ library StringUtils {
     function lengthStrings(string memory _a) internal pure returns (uint) {
         return bytes(_a).length;
     }
+
+    function getCharAt(string memory _str, uint index) internal pure returns (string memory) {
+        require(index < bytes(_str).length, "Index out of bounds");
+        return string(abi.encodePacked(bytes(_str)[index]));
+    }
 }
 ```
 
@@ -52,6 +57,10 @@ contract StringOperations {
     function lengthStrings(string memory _a) public pure returns (uint) {
         return _a.lengthStrings();
     }
+
+    function getCharAtStrings(string memory _str, uint index) public pure returns (string memory) {
+        return _str.getCharAt(index);
+    }
 }
 ```
 
@@ -60,12 +69,12 @@ contract StringOperations {
 - Config deploy file (script/deploy.ts)
 
 ```js
-const deployLibraryCalculator = async () => {
-  const LibraryCalculator = await ethers.getContractFactory("LibraryCalculator");
-  const libraryCalculator = await LibraryCalculator.deploy();
+const deployStringOperations = async () => {
+  const StringOperations = await ethers.getContractFactory("StringOperations");
+  const stringOperations = await StringOperations.deploy();
 
   console.table({
-    libraryCalculator: await libraryCalculator.getAddress()
+    stringOperations: await stringOperations.getAddress()
   });
 };
 
