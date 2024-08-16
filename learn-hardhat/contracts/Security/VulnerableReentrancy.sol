@@ -6,6 +6,7 @@ contract VulnerableReentrancy {
     mapping(address => uint) public balances;
 
     function deposit() public payable {
+        require(msg.value >= 0.01 ether, "Deposit must be greater than 0.01 ether");
         balances[msg.sender] += msg.value;
     }
 
