@@ -15,11 +15,11 @@ contract TokenDrop is ERC20, Ownable {
     // 25/9/2024 00:00:00
     uint256 private endTime = 1726765200; 
 
-    // Max claim 100 tokens
-    uint256 public maxClaim = 100;
-
     // Each token is 0.001 metis = 0.001 * 10^18 = 10^15
     uint256 public price = 1_000_000_000_000_000;
+
+    // Max claim 100 tokens:  0.1 / 0.001 = 100 tokens
+    uint256 public maxClaim = 100_000_000_000_000_000 / price;
 
     constructor() ERC20("BabyDog", "BBD") Ownable(msg.sender) {
         _mint(address(this), initialSupply);
@@ -56,11 +56,6 @@ contract TokenDrop is ERC20, Ownable {
         _mint(msg.sender, tokenAmount * (10 ** decimals()));
     }
 
-    function publicClaim(uint256 amount) public {
-        require(block.timestamp >= endTime, "Not in claim time");
-        buyToken(amount);
-    }
-
     function withdraw() external onlyOwner {
         uint256 balance = address(this).balance;
         require(balance > 0, "No balance to withdraw");
@@ -71,7 +66,7 @@ contract TokenDrop is ERC20, Ownable {
         require(block.timestamp >= endTime, "You can't buy token now");
         require(tokenAmount > 0, "You need to buy at least 1 token");
 
-        uint256 requiredValue = (tokenAmount * price) / (10 ** decimals());
+        uint256 requiredValue = tokenAmount * price;
         require(msg.value == requiredValue, "Incorrect amount of Metis sent");
 
         _transfer(address(this), msg.sender, tokenAmount * (10 ** decimals()));
