@@ -1,52 +1,63 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import  {ERC721URIStorage} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract SimpleNFT is ERC721, Ownable {
+contract SimpleNFT is ERC721, AccessControl  {
+    bytes32 private constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    bytes32 private constant MINTER_ROLE = keccak256("MINTER_ROLE");
+
+    struct Player{
+        string name;
+        uint256 age;
+        string baseURI;
+    }
     uint256 public totalSupply;
-    uint256 public maxSupply;
-    uint256 public mintPrice = 0.001 ether;
+    uint256 public maxSupply = 20;
     bool public isMintEnabled;
-    mapping(address => uint256) public mintedWallets;
+    mapping(uint256 => Player) public players;
 
-    constructor(address _initialAddress) payable ERC721("SimpleNFT", "SNFT") Ownable(_initialAddress) {
-        maxSupply = 100;
+    constructor() payable ERC721("SimpleNFT", "SNFT") {
+        _grantRole(MINTER_ROLE, msg.sender);
+        _grantRole(ADMIN_ROLE, msg.sender);
     }
 
-    function setMintPrice(uint256 _mintPrice) public onlyOwner {
-        mintPrice = _mintPrice;
-    }
-
-    function setMaxSupply(uint256 _maxSupply) public onlyOwner {
+    function setMaxSupply(uint256 _maxSupply) public onlyRole(ADMIN_ROLE)  {
         maxSupply = _maxSupply;
     }
     
-    function setMintEnabled() public onlyOwner {
+    function setMintEnabled() public onlyRole(ADMIN_ROLE)  {
         isMintEnabled = !isMintEnabled;
     }
 
-    // function awardItem(address player, string memory tokenURI)
-    //     public
-    //     returns (uint256)
-    // {
-    //     uint256 tokenId = totalSupply++;
-    //     _mint(player, tokenId);
-    //     _setTokenURI(tokenId, tokenURI);
-    //     return tokenId;
-    // }
-
-    function mint() external payable {
+    function mintTo(address to, string memory name, uint256 age, string memory baseURI) public onlyRole(MINTER_ROLE) returns (uint256) {
         require(isMintEnabled, "Minting is disabled");
-        require(mintedWallets[_msgSender()] < 1, "Acceed mint per wallet");
-        require(msg.value == mintPrice, "Incorrect value");
-        require(totalSupply < maxSupply, "Sold out");
+        require(totalSupply < maxSupply, "Max supply reached");
 
-        mintedWallets[_msgSender()] += 1;
-        totalSupply += 1;
-        uint256 tokenId = totalSupply;
-        _safeMint(_msgSender(), tokenId);
+        uint256 newPlayerId = totalSupply++;
+        Player memory newPlayer = Player(name, age, baseURI);    
+        _safeMint(to, newPlayerId);
+        _setPlayer(newPlayerId, newPlayer);
+        totalSupply = newPlayerId;
+        return newPlayerId;
+    }
+
+
+    function _setPlayer(uint256 _playerId, Player memory _player) public onlyRole(MINTER_ROLE) {
+        players[_playerId] = Player({
+            name: _player.name,
+            age: _player.age,
+            baseURI: _player.baseURI
+        });
+    }
+
+    function getPlayer(uint256 _playerId) public view returns (Player memory) {
+        return players[_playerId];
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
+        return super.supportsInterface(interfaceId);
     }
 }
