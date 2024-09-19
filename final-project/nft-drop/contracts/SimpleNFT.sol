@@ -17,7 +17,7 @@ contract SimpleNFT is ERC721, AccessControl  {
     uint256 public totalSupply;
     uint256 public maxSupply = 20;
     bool public isMintEnabled;
-    mapping(uint256 => Player) public players;
+    mapping(uint256 => Player) private players;
 
     event MintPlayer(address indexed user, uint256 indexed playerId);
 
@@ -34,11 +34,11 @@ contract SimpleNFT is ERC721, AccessControl  {
         isMintEnabled = !isMintEnabled;
     }
 
-    function _exist(uint256 _playerId) public view returns (bool) {
+    function _exist(uint256 _playerId) private view returns (bool) {
         return bytes(players[_playerId].name).length > 0;
     }
 
-    function validatePlayer(string memory name, uint8 age, string memory baseURI) public pure {
+    function validatePlayer(string memory name, uint8 age, string memory baseURI) private pure {
         require(bytes(name).length > 0, "Name cannot be empty");
         require(age > 0, "Age must be greater than zero");
         require(bytes(baseURI).length > 0, "BaseURI cannot be empty");
@@ -65,8 +65,8 @@ contract SimpleNFT is ERC721, AccessControl  {
         });
     }
 
-    function getPlayer(uint256 _playerId) public view returns (Player memory) {
-        require(_exist(_playerId), "Player does not exist");  
+    function getPlayer(uint256 _playerId) external view returns (Player memory) {
+        require(_exist(_playerId), "Player does not exist"); 
         return players[_playerId];
     }
 
