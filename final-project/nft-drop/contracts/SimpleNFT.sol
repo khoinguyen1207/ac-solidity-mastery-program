@@ -11,7 +11,7 @@ contract SimpleNFT is ERC721, AccessControl  {
 
     struct Player{
         string name;
-        uint256 age;
+        uint8 age;
         string baseURI;
     }
     uint256 public totalSupply;
@@ -19,7 +19,9 @@ contract SimpleNFT is ERC721, AccessControl  {
     bool public isMintEnabled;
     mapping(uint256 => Player) public players;
 
-    constructor() payable ERC721("SimpleNFT", "SNFT") {
+    event MintPlayer(address indexed user, uint256 indexed playerId);
+
+    constructor() ERC721("SimpleNFT", "SNFT") {
         _grantRole(MINTER_ROLE, msg.sender);
         _grantRole(ADMIN_ROLE, msg.sender);
     }
@@ -32,18 +34,28 @@ contract SimpleNFT is ERC721, AccessControl  {
         isMintEnabled = !isMintEnabled;
     }
 
-    function mintTo(address to, string memory name, uint256 age, string memory baseURI) public onlyRole(MINTER_ROLE) returns (uint256) {
+    function _exist(uint256 _playerId) public view returns (bool) {
+        return bytes(players[_playerId].name).length > 0;
+    }
+
+    function validatePlayer(string memory name, uint8 age, string memory baseURI) public pure {
+        require(bytes(name).length > 0, "Name cannot be empty");
+        require(age > 0, "Age must be greater than zero");
+        require(bytes(baseURI).length > 0, "BaseURI cannot be empty");
+    }
+
+    function mintTo(address to, string memory name, uint8 age, string memory baseURI) public onlyRole(MINTER_ROLE) {
+        validatePlayer(name, age, baseURI);
         require(isMintEnabled, "Minting is disabled");
         require(totalSupply < maxSupply, "Max supply reached");
 
-        uint256 newPlayerId = totalSupply++;
+        totalSupply += 1;
+        uint256 newPlayerId = totalSupply;
         Player memory newPlayer = Player(name, age, baseURI);    
         _safeMint(to, newPlayerId);
         _setPlayer(newPlayerId, newPlayer);
-        totalSupply = newPlayerId;
-        return newPlayerId;
+        emit MintPlayer(to, newPlayerId);
     }
-
 
     function _setPlayer(uint256 _playerId, Player memory _player) public onlyRole(MINTER_ROLE) {
         players[_playerId] = Player({
@@ -54,6 +66,7 @@ contract SimpleNFT is ERC721, AccessControl  {
     }
 
     function getPlayer(uint256 _playerId) public view returns (Player memory) {
+        require(_exist(_playerId), "Player does not exist");  
         return players[_playerId];
     }
 
