@@ -1,0 +1,6 @@
+export const CHAIN_IDS = {
+  METIS_TESTNET: 59902,
+  BSC: 56,
+  ETH: 1,
+  SEPOLIA_TESTNET: 11155111,
+};
