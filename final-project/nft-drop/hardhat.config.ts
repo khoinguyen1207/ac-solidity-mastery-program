@@ -38,6 +38,12 @@ const config: HardhatUserConfig = {
       accounts: [PRIVATE_KEY],
       timeout: 2_147_483_647,
     },
+    "bsc-testnet": {
+      url: "https://endpoints.omniatech.io/v1/bsc/testnet/public",
+      chainId: 97,
+      accounts: [PRIVATE_KEY],
+      timeout: 2_147_483_647,
+    },
   },
   abiExporter: {
     path: "data/abi",

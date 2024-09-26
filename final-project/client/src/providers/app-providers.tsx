@@ -5,7 +5,7 @@ import Web3 from "web3";
 
 export default function AppProvider({ children }: { children: React.ReactNode }) {
   const { web3, setWeb3 } = useAuthStore();
-  const { getWalletInfo } = useAccount();
+  const { getWalletInfo, disconnectWallet } = useAccount();
 
   useEffect(() => {
     if (window.ethereum) {
@@ -20,6 +20,10 @@ export default function AppProvider({ children }: { children: React.ReactNode })
 
     web3.provider?.on("accountsChanged", async (accounts: string[]) => {
       getWalletInfo();
+    });
+
+    web3.provider?.on("chainChanged", () => {
+      disconnectWallet();
     });
   }, [web3]);
   return <div>{children}</div>;

@@ -1,24 +1,17 @@
-import { CHAIN_IDS } from "@/constants/constants";
+import { CHAIN_IDS, chainList } from "@/constants/chainlist";
 import useAuthStore from "@/hooks/useAuthStore";
 
 export default function useAccount() {
   const { web3, setWalletInfo, setIsConnected } = useAuthStore();
 
-  const addNetwork = async (chainId: number) => {
+  const addNetwork = async () => {
     if (!web3) return;
     await web3.provider?.request({
       method: "wallet_addEthereumChain",
       params: [
         {
-          chainId: web3.utils.toHex(chainId),
-          chainName: "Metis Sepolia Testnet",
-          rpcUrls: ["https://sepolia.metisdevops.link"],
-          nativeCurrency: {
-            name: "METIS",
-            symbol: "tMETIS",
-            decimals: 18,
-          },
-          blockExplorerUrls: ["https://sepolia-explorer.metisdevops.link"],
+          ...chainList.bscTestnet,
+          chainId: web3.utils.toHex(CHAIN_IDS.BSC_TESTNET),
         },
       ],
     });
@@ -29,13 +22,13 @@ export default function useAccount() {
     return parseInt((await web3.eth.getChainId()).toString());
   };
 
-  const switchNetwork = async (chainId: number) => {
+  const switchNetwork = async () => {
     if (!web3) return;
     const currentChainId = await getChainId();
-    if (chainId === currentChainId) return;
+    if (CHAIN_IDS.HARDHAT_LOCAL === currentChainId) return;
     await web3.provider?.request({
       method: "wallet_switchEthereumChain",
-      params: [{ chainId: web3.utils.toHex(chainId) }],
+      params: [{ chainId: web3.utils.toHex(CHAIN_IDS.HARDHAT_LOCAL) }],
     });
   };
 
@@ -43,7 +36,11 @@ export default function useAccount() {
     if (!web3) return;
     try {
       const address = await web3.eth.getAccounts();
-      if (!address.length) throw new Error("No address found");
+      if (!address.length) {
+        setWalletInfo({ address: "", balances: 0 });
+        setIsConnected(false);
+        return;
+      }
       const balanceOf = await web3.eth.getBalance(address[0]);
       setWalletInfo({
         address: address[0],
@@ -52,22 +49,20 @@ export default function useAccount() {
       setIsConnected(true);
     } catch (error) {
       console.log(error);
-      setWalletInfo({ address: "", balances: 0 });
-      setIsConnected(false);
     }
   };
 
   const connectWallet = async () => {
     try {
       if (!web3) return;
-      await switchNetwork(CHAIN_IDS.HARDHAT_LOCAL);
+      await switchNetwork();
       await web3.eth.requestAccounts();
     } catch (error: any) {
       console.log(error);
       if (error.code === 4902) {
         try {
-          await addNetwork(CHAIN_IDS.HARDHAT_LOCAL);
-          await switchNetwork(CHAIN_IDS.HARDHAT_LOCAL);
+          await addNetwork();
+          await switchNetwork();
           await connectWallet();
         } catch (error) {
           console.log(error);

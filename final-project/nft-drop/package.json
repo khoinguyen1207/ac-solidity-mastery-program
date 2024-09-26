@@ -8,7 +8,8 @@
     "run:localhost": "hardhat run --network localhost",
     "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
     "deploy:sepolia": "hardhat ignition deploy --network sepolia",
-    "deploy:metis-testnet": "hardhat run scripts/deploy.ts --network metis-testnet"
+    "deploy:metis-testnet": "hardhat run scripts/deploy.ts --network metis-testnet",
+    "deploy:bsc-testnet": "hardhat run scripts/deploy.ts --network bsc-testnet"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
