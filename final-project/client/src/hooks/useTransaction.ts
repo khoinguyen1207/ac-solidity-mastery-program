@@ -12,6 +12,16 @@ export default function useTransaction() {
     const web3 = new Web3(window.ethereum);
     const contract = new web3.eth.Contract(contractABI, contractAddress);
     console.log(contract);
+    const accounts = await web3.eth.getAccounts();
+    try {
+      const event = await contract.getPastEvents("MintPlayer", {
+        filter: accounts[0],
+        fromBlock: 0,
+        toBlock: "latest",
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
     // try {
     //   const accounts = await web3.eth.getAccounts();

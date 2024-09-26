@@ -4,8 +4,9 @@ pragma solidity ^0.8.24;
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {ERC721Pausable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
+import {ERC721Enumerable} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract SimpleNFT is ERC721Pausable, AccessControl  {
+contract SimpleNFT is ERC721Pausable, AccessControl, ERC721Enumerable  {
     bytes32 private constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
     bytes32 private constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
@@ -14,7 +15,7 @@ contract SimpleNFT is ERC721Pausable, AccessControl  {
         uint8 rarity;
         string tokenURI;
     }
-    uint256 public totalSupply;
+    uint256 public cap;
     uint256 public maxSupply = 30;
     mapping(uint256 => Player) private players;
 
@@ -50,10 +51,10 @@ contract SimpleNFT is ERC721Pausable, AccessControl  {
 
     function mintTo(address to, string memory _name, uint8 _rarity, string memory _tokenURI) public whenNotPaused() onlyRole(MINTER_ROLE) {
         validatePlayer(_name, _rarity, _tokenURI);
-        require(totalSupply < maxSupply, "Max supply reached");
+        require(cap < maxSupply, "Max supply reached");
 
-        totalSupply++;
-        uint256 newPlayerId = totalSupply; 
+        cap++;
+        uint256 newPlayerId = cap; 
         _safeMint(to, newPlayerId);
         players[newPlayerId] = Player(_name, _rarity, _tokenURI);
 
@@ -75,7 +76,22 @@ contract SimpleNFT is ERC721Pausable, AccessControl  {
         );
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, AccessControl, ERC721Enumerable) returns (bool) {
         return super.supportsInterface(interfaceId);
+    }
+
+    function _update(address to, uint256 tokenId, address auth)
+        internal
+        override(ERC721Enumerable, ERC721Pausable)
+        returns (address)
+    {
+        return super._update(to, tokenId, auth);
+    }
+
+     function _increaseBalance(address account, uint128 value)
+        internal
+        override(ERC721, ERC721Enumerable)
+    {
+        super._increaseBalance(account, value);
     }
 }
