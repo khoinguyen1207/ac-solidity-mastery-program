@@ -5,11 +5,13 @@ import { WalletInfo } from "@/types/account.type";
 interface State {
   web3: Web3 | null;
   walletInfo: WalletInfo;
+  isConnected: boolean;
 }
 
 interface Action {
   setWeb3: (web3: Web3) => void;
   setWalletInfo: (walletInfo: WalletInfo) => void;
+  setIsConnected: (isConnected: boolean) => void;
 }
 
 const initialState: State = {
@@ -18,6 +20,7 @@ const initialState: State = {
     address: "",
     balances: 0,
   },
+  isConnected: false,
 };
 
 const useAuthStore = create<State & Action>((set) => ({
@@ -30,6 +33,7 @@ const useAuthStore = create<State & Action>((set) => ({
         balances: payload.balances,
       },
     }),
+  setIsConnected: (isConnected) => set({ isConnected }),
 }));
 
 export default useAuthStore;

@@ -6,7 +6,7 @@
     "size": "hardhat size-contracts",
     "clean": "hardhat clean",
     "run:localhost": "hardhat run --network localhost",
-    "deploy:local": "hardhat ignition deploy --network localhost",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
     "deploy:sepolia": "hardhat ignition deploy --network sepolia",
     "deploy:metis-testnet": "hardhat run scripts/deploy.ts --network metis-testnet"
   },

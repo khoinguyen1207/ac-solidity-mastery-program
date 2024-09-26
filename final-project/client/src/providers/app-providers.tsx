@@ -18,7 +18,7 @@ export default function AppProvider({ children }: { children: React.ReactNode })
     if (!web3) return;
     getWalletInfo();
 
-    web3.currentProvider?.on("accountsChanged", (accounts: string[]) => {
+    web3.provider?.on("accountsChanged", async (accounts: string[]) => {
       getWalletInfo();
     });
   }, [web3]);

@@ -7,11 +7,11 @@ async function main() {
   console.log("Account balance: ", (await owner.provider.getBalance(owner)).toString());
 
   const deploy = async () => {
-    const Lock = await ethers.getContractFactory("Lock");
-    const lock = await Lock.deploy(1725605100);
+    const SimpleNFT = await ethers.getContractFactory("SimpleNFT");
+    const simpleNFT = await SimpleNFT.deploy();
 
     console.table({
-      lock: await lock.getAddress(),
+      simpleNft: await simpleNFT.getAddress(),
     });
   };
 
