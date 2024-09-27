@@ -9,7 +9,7 @@ import useTransaction from "@/hooks/useTransaction";
 function App() {
   const { walletInfo, isConnected } = useAuthStore();
   const { connectWallet, disconnectWallet } = useAccount();
-  const { mintNFT } = useTransaction();
+  const { mintNFT, nfts } = useTransaction();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -74,66 +74,88 @@ function App() {
         </div>
       </header>
 
-      <main className="flex-grow my-6 container mx-auto p-4">
-        <Card className="w-full md:w-[80%] mx-auto">
-          <CardHeader>
-            <CardTitle>Wallet Information</CardTitle>
-            <CardDescription>Your current wallet status</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {isConnected ? (
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Address:</span>
-                  <span className="truncate ml-2">{walletInfo.address}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">Balance:</span>
-                  <span className="truncate ml-2">{walletInfo.balances} ETH</span>
-                </div>
-              </div>
-            ) : (
-              <p>Please connect your wallet to view information.</p>
-            )}
-          </CardContent>
-        </Card>
-        {isConnected && (
-          <Card className="w-full md:w-[80%] mx-auto mt-8">
+      <main className="flex-grow container mx-auto px-4">
+        <div className="py-6">
+          <Card className="w-full lg:w-[80%] mx-auto">
             <CardHeader>
-              <CardTitle>Mint NFT</CardTitle>
-              <CardDescription>Create your unique NFT</CardDescription>
+              <CardTitle>Wallet Information</CardTitle>
+              <CardDescription>Your current wallet status</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-6 items-center">
-                <div className=" rounded-md h-[400px]">
-                  <img
-                    src="https://4kwallpapers.com/images/wallpapers/black-myth-wukong-1920x1200-17970.jpeg"
-                    alt="nft"
-                    className="rounded-md overflow-hidden w-full h-full"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <h2 className="text-base font-medium">23/100 minted</h2>
-                  <h1 className="text-3xl font-bold">Wukong NFT</h1>
-                  <p className="text-slate-500">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et quam in nunc consectetur adipiscing elit consectetur
-                    adipiscing elit consectetur adipiscing elit consectetur adipiscing elit
-                  </p>
-                  <div className="flex justify-between py-3 text-lg">
-                    <div>On sale</div>
-                    <div>
-                      4.89 ETH
-                      <div>($24.566)</div>
-                    </div>
+              {isConnected ? (
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Address:</span>
+                    <span className="truncate ml-2">{walletInfo.address}</span>
                   </div>
-                  <Button className="w-fit ml-auto" size="lg" onClick={() => mintNFT()}>
-                    <Coins className="mr-2 h-4 w-4" /> Mint NFT
-                  </Button>
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">Balance:</span>
+                    <span className="truncate ml-2">{walletInfo.balances} ETH</span>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <p>Please connect your wallet to view information.</p>
+              )}
             </CardContent>
           </Card>
-        )}
+          {isConnected && (
+            <Card className="w-full mx-auto lg:w-[80%] mt-8">
+              <CardHeader>
+                <CardTitle>Mint NFT</CardTitle>
+                <CardDescription>Create your unique NFT</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2  w-full gap-6 items-center">
+                  <div className=" rounded-md h-[400px]">
+                    <img
+                      src="https://4kwallpapers.com/images/wallpapers/black-myth-wukong-1920x1200-17970.jpeg"
+                      alt="nft"
+                      className="rounded-md overflow-hidden w-full h-full"
+                    />
+                  </div>
+                  <div className="grid gap-2">
+                    <h2 className="text-base font-medium">23/100 minted</h2>
+                    <h1 className="text-3xl font-bold">Wukong NFT</h1>
+                    <p className="text-slate-500">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et quam in nunc consectetur adipiscing elit consectetur
+                      adipiscing elit consectetur adipiscing elit consectetur adipiscing elit
+                    </p>
+                    <div className="flex justify-between py-3 text-lg">
+                      <div>On sale</div>
+                      <div>
+                        4.89 ETH
+                        <div>($24.566)</div>
+                      </div>
+                    </div>
+                    <Button className="w-fit ml-auto" size="lg" onClick={() => mintNFT()}>
+                      <Coins className="mr-2 h-4 w-4" /> Mint NFT
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+        <div className="my-6">
+          <h1 className="text-4xl font-bold mt-8">My NFTs</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+            {nfts.map((nft, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle>{nft.name}</CardTitle>
+                  <CardDescription>{nft.rarity}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <img src={nft.tokenURI} alt={nft.name} className="rounded-md w-full h-56 object-cover" />
+                  <div className="py-2">
+                    <span className="font-medium">Owner:</span>
+                    <span className="ml-2">{`${nft.user.slice(0, 7)}...${nft.user.slice(-5)}`}</span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </main>
     </div>
   );
